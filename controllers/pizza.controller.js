@@ -1,6 +1,4 @@
 const Pizza = require('../models/pizza.model');
-
-
 // Retrieve all pizzas from the database.
 exports.findAll = (req, res) => {
     const searchText = req.query.searchTerm ? req.query.searchTerm.toLowerCase():'';
