@@ -19,7 +19,6 @@ exports.findAll = (req, res) => {
         });
     });
 };
-
 //Create new Pizza
 exports.create = (req, res) => {
     // Request validation
