@@ -37,12 +37,12 @@ mongoose.connect(config.url, {
 
 // default route
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to CGM patient app"});
+    res.json({"message": "Welcome to Pizza Delivery app"});
 });
 
 // listen on port 3000
-app.listen(config.serverport, () => {
-    console.log("Server is listening on port 3000");
+app.listen(process.env.PORT, '0.0.0.0' , () => {
+    console.log("Server is listening on port"+ process.env.PORT);
 });
 
 
