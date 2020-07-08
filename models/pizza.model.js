@@ -5,7 +5,9 @@ const PizzaSchema = mongoose.Schema({
     type: {type: String, required: true},
     description: {type: String , required: true},
     image: {type: String , required: true},
-    price: {type: Number, required: true}
+    price: {type: Number, required: true},
+    ingredients:[{name: String , ingredients: [{name: String, ingredients:[{name:String, ingredients:[{name:String,ingredients:[]}]}]}]}]
+
 }, {
     timestamps: true
 });

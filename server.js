@@ -41,8 +41,8 @@ app.get('/', (req, res) => {
 });
 
 // listen on port 3000
-app.listen(process.env.PORT, '0.0.0.0' , () => {
-    console.log("Server is listening on port"+ process.env.PORT);
+app.listen(config.serverport, '0.0.0.0' , () => {
+    console.log("Server is listening on port"+ config.serverport);
 });
 
 

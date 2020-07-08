@@ -1,16 +1,22 @@
 const Pizza = require('../models/pizza.model');
 // Retrieve all pizzas from the database.
 exports.findAll = (req, res) => {
-    const searchText = req.query.searchTerm ? req.query.searchTerm.toLowerCase():'';
+    const searchText = req.query.name ? req.query.name.toLowerCase():'';
+    const ingredientSearchText = req.query.ingredients ? req.query.ingredients.toLowerCase():'';
     Pizza.find()
         .then(pizzas => {
-            if (searchText) {
+
                 pizzas = pizzas.filter(function (value) {
                     const name = value.name.toLowerCase();
-                    const description = value.description.toString().toLowerCase();
-                    return (name.match(searchText) || description.match(searchText));
+                    // const description = value.description.toString().toLowerCase();
+                    const ingredients = value.ingredients.toString().toLowerCase();
+                    let sIngredients ='';
+                    value.ingredients.filter(function (value) {
+                        sIngredients += value.ingredients.toString().toLowerCase();
+                    });
+                    return (name.match(searchText) && (ingredients.match(ingredientSearchText) || sIngredients.match(ingredientSearchText)));
                 })
-            }
+
 
             res.send({"status": "SUCCESSFUL", "data": pizzas, "totalCount": pizzas.length});
         }).catch(err => {
@@ -34,7 +40,9 @@ exports.create = (req, res) => {
         'description': req.body.description,
         'price': req.body.price,
         'image': req.body.image,
-        'type': req.body.type
+        'type': req.body.type,
+        'ingredients': req.body.ingredients
+
     });
     // Save Pizza in the database
     pizza.save(
@@ -49,6 +57,34 @@ exports.create = (req, res) => {
         }
     )
 };
+
+// Retrieve all pizzas by search ingredients.
+
+exports.findAllByIngredients = (req, res) => {
+    const searchText = req.query.searchTerm ? req.query.searchTerm.toLowerCase() : '';
+    Pizza.find()
+        .then(pizzas => {
+            if (searchText) {
+                pizzas = pizzas.filter(function (value) {
+                    // const name = value.name.toLowerCase();
+                    const ingredients = value.ingredients.toString().toLowerCase();
+                    let singredients ='';
+                    value.ingredients.filter(function (value) {
+                        singredients += value.ingredients.toString().toLowerCase();
+                    });
+
+                    return (ingredients.match(searchText) || singredients.match(searchText));
+                })
+            }
+
+            res.send({"status": "SUCCESSFUL", "data": pizzas, "totalCount": pizzas.length});
+        }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Something wrong while retrieving pizzas."
+        });
+    });
+};
+
 
 
 

@@ -1,7 +1,7 @@
 {
-  "name": "pizza-delivery-app",
+  "name": "food-order-app",
   "version": "1.0.0",
-  "description": "this is pizza delivery app",
+  "description": "this is food order app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
