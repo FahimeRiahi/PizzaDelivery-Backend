@@ -1,21 +1,30 @@
 const Pizza = require('../models/pizza.model');
 // Retrieve all pizzas from the database.
 exports.findAll = (req, res) => {
-    const searchText = req.query.name ? req.query.name.toLowerCase():'';
-    const ingredientSearchText = req.query.ingredients ? req.query.ingredients.toLowerCase():'';
+    const searchText = req.query.name ? req.query.name.toLowerCase() : '';
+    const ingredientSearchText = req.query.ingredients ? req.query.ingredients.toLowerCase() : '';
     Pizza.find()
         .then(pizzas => {
 
-                pizzas = pizzas.filter(function (value) {
-                    const name = value.name.toLowerCase();
-                    // const description = value.description.toString().toLowerCase();
-                    const ingredients = value.ingredients.toString().toLowerCase();
-                    let sIngredients ='';
-                    value.ingredients.filter(function (value) {
-                        sIngredients += value.ingredients.toString().toLowerCase();
-                    });
-                    return (name.match(searchText) && (ingredients.match(ingredientSearchText) || sIngredients.match(ingredientSearchText)));
-                })
+            pizzas = pizzas.filter(function (value) {
+                let name ='';
+                if (searchText)
+                {
+                    name = value.name.toLowerCase();
+
+                }
+                let ingredients ='';
+                let sIngredients = '';
+
+                if(ingredientSearchText)
+               {
+                   ingredients = value.ingredients.toString().toLowerCase();
+                   value.ingredients.filter(function (value) {
+                       sIngredients += value.ingredients.toString().toLowerCase();
+                   });
+               }
+                return (name.match(searchText) && (ingredients.match(ingredientSearchText) || sIngredients.match(ingredientSearchText)));
+            })
 
 
             res.send({"status": "SUCCESSFUL", "data": pizzas, "totalCount": pizzas.length});
@@ -47,11 +56,9 @@ exports.create = (req, res) => {
     // Save Pizza in the database
     pizza.save(
         (err, data) => {
-            if(data) {
+            if (data) {
                 res.send({"status": "SUCCESSFUL", "data": data});
-            }
-            else
-            {
+            } else {
                 res.send({"status": "FAILED", err});
             }
         }
@@ -68,7 +75,7 @@ exports.findAllByIngredients = (req, res) => {
                 pizzas = pizzas.filter(function (value) {
                     // const name = value.name.toLowerCase();
                     const ingredients = value.ingredients.toString().toLowerCase();
-                    let singredients ='';
+                    let singredients = '';
                     value.ingredients.filter(function (value) {
                         singredients += value.ingredients.toString().toLowerCase();
                     });
