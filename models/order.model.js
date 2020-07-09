@@ -5,7 +5,7 @@ const AddressSchema = require('../models/address.model').schema;
 const OrderSchema = mongoose.Schema({
     address: AddressSchema,
     totalPrice: {type: Number, required: true},
-    description: {type: String , required: true},
+    description: {type: String},
     pizzas:[{pizza:PizzaSchema,count:Number}],
 }, {
     timestamps: true
